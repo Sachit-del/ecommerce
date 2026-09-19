@@ -3,6 +3,7 @@ import {
   auth, 
   googleProvider, 
   signInWithPopup, 
+  signInWithRedirect,
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
   signOut, 
@@ -110,6 +111,13 @@ export function AuthProvider({ children }) {
       return { success: true, user: userObj };
     } catch (err) {
       console.error("Firebase Google Auth error:", err);
+
+      // Popup blockers and some browser privacy settings require a full-page redirect.
+      if (err.code === 'auth/popup-blocked' || err.code === 'auth/cancelled-popup-request') {
+        await signInWithRedirect(auth, googleProvider);
+        return { success: true, redirecting: true };
+      }
+
       throw err;
     }
   };

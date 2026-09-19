@@ -21,7 +21,13 @@ export default function AuthModal({ isOpen, onClose }) {
       await signInWithGoogle();
       onClose();
     } catch (err) {
-      setError(err.message || 'Google sign-in was cancelled or failed.');
+      const messages = {
+        'auth/unauthorized-domain': 'This website domain is not authorized in Firebase. Add it under Authentication > Settings > Authorized domains.',
+        'auth/popup-closed-by-user': 'Google sign-in was cancelled.',
+        'auth/operation-not-allowed': 'Google sign-in is not enabled in the Firebase Authentication providers.',
+        'auth/network-request-failed': 'Network error. Check your connection and try again.'
+      };
+      setError(messages[err.code] || err.message || 'Google sign-in failed. Please try again.');
     } finally {
       setLoading(false);
     }
