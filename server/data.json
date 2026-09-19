@@ -1,0 +1,352 @@
+{
+  "admins": [
+    {
+      "email": "admin@gmail.com",
+      "password": "admin123"
+    },
+    {
+      "email": "sachitmohite6@gmail.com",
+      "password": "admin123"
+    }
+  ],
+  "products": [
+    {
+      "id": "th-01",
+      "name": "Heavyweight Boxy Organic Tee",
+      "sku": "TH-TEE-01",
+      "category": "Heavyweight Tees",
+      "price": 48,
+      "originalPrice": 58,
+      "rating": 4.9,
+      "reviewsCount": 142,
+      "stock": 28,
+      "isFeatured": true,
+      "isNew": true,
+      "description": "Constructed from 280 GSM combed organic cotton with a structured boxy silhouette, drop shoulder, and dense ribbed collar that will never bacon.",
+      "fabric": "100% GOTS Certified Combed Ring-Spun Organic Cotton (280 GSM). Pre-shrunk with water-based organic dyes.",
+      "origin": "Ethically spun and sewn in Porto, Portugal in a Fair-Trade Certified solar-powered facility.",
+      "images": [
+        "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1000&q=80",
+        "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?auto=format&fit=crop&w=1000&q=80",
+        "https://images.unsplash.com/photo-1562157873-818bc0726f68?auto=format&fit=crop&w=1000&q=80"
+      ],
+      "colors": [
+        {
+          "name": "Oat Chalk",
+          "hex": "#F3EFEA"
+        },
+        {
+          "name": "Carbon Slate",
+          "hex": "#22252A"
+        },
+        {
+          "name": "Raw Sage",
+          "hex": "#7A8B7B"
+        },
+        {
+          "name": "Dune Sand",
+          "hex": "#C7B9A5"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL",
+        "XXL"
+      ],
+      "sizingGuide": {
+        "S": {
+          "chest": "41 in / 104 cm",
+          "length": "27.5 in / 70 cm",
+          "shoulder": "19.5 in / 50 cm"
+        },
+        "M": {
+          "chest": "44 in / 112 cm",
+          "length": "28.5 in / 72 cm",
+          "shoulder": "20.5 in / 52 cm"
+        },
+        "L": {
+          "chest": "47 in / 119 cm",
+          "length": "29.5 in / 75 cm",
+          "shoulder": "21.5 in / 55 cm"
+        },
+        "XL": {
+          "chest": "50 in / 127 cm",
+          "length": "30.5 in / 77 cm",
+          "shoulder": "22.5 in / 57 cm"
+        },
+        "XXL": {
+          "chest": "53 in / 135 cm",
+          "length": "31.5 in / 80 cm",
+          "shoulder": "23.5 in / 60 cm"
+        }
+      },
+      "reviews": [
+        {
+          "id": "rev-1",
+          "user": "Julian K.",
+          "rating": 5,
+          "date": "2 days ago",
+          "comment": "The weight and drape on this tee is unmatched. Holds its shape completely after washing."
+        },
+        {
+          "id": "rev-2",
+          "user": "Mira T.",
+          "rating": 5,
+          "date": "1 week ago",
+          "comment": "Google-clean minimalism at its finest. The Oat Chalk color is subtle and elegant."
+        }
+      ]
+    },
+    {
+      "id": "th-03",
+      "name": "Pleated Relaxed Minimal Trouser",
+      "sku": "TH-TR-03",
+      "category": "Minimal Pants",
+      "price": 96,
+      "originalPrice": 110,
+      "rating": 4.88,
+      "reviewsCount": 76,
+      "stock": 14,
+      "isFeatured": true,
+      "isNew": true,
+      "description": "Tailored with a single forward pleat and elasticated internal waistband. Delivers an effortless drape from hip to ankle with clean hidden pockets.",
+      "fabric": "65% Recycled Wool, 30% Organic Cotton Twill, 5% Elastane for structured movement.",
+      "origin": "Crafted in Biella, Italy using heritage mills with closed-loop water treatment.",
+      "images": [
+        "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=1000&q=80",
+        "https://images.unsplash.com/photo-1479064555552-3ef4979f8908?auto=format&fit=crop&w=1000&q=80"
+      ],
+      "colors": [
+        {
+          "name": "Obsidian",
+          "hex": "#1F2023"
+        },
+        {
+          "name": "Muted Olive",
+          "hex": "#555B4E"
+        },
+        {
+          "name": "Ash Gray",
+          "hex": "#87898F"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizingGuide": {
+        "S": {
+          "chest": "Waist: 28-30 in",
+          "length": "Inseam: 30 in / 76 cm",
+          "shoulder": "Leg Opening: 8.5 in"
+        },
+        "M": {
+          "chest": "Waist: 31-33 in",
+          "length": "Inseam: 31 in / 79 cm",
+          "shoulder": "Leg Opening: 9.0 in"
+        },
+        "L": {
+          "chest": "Waist: 34-36 in",
+          "length": "Inseam: 31.5 in / 80 cm",
+          "shoulder": "Leg Opening: 9.5 in"
+        },
+        "XL": {
+          "chest": "Waist: 37-39 in",
+          "length": "Inseam: 32 in / 81 cm",
+          "shoulder": "Leg Opening: 10.0 in"
+        }
+      },
+      "reviews": [
+        {
+          "id": "rev-5",
+          "user": "Marcus D.",
+          "rating": 5,
+          "date": "4 days ago",
+          "comment": "Incredibly versatile. Dressed up with loafers or casual with clean sneakers."
+        }
+      ]
+    },
+    {
+      "id": "th-04",
+      "name": "Water-Repellent Minimalist Shell Parka",
+      "sku": "TH-OW-04",
+      "category": "Outerwear",
+      "price": 185,
+      "originalPrice": 220,
+      "rating": 4.92,
+      "reviewsCount": 64,
+      "stock": 5,
+      "isFeatured": true,
+      "isNew": false,
+      "description": "An understated technical shell featuring seam-sealed Japanese waterproof membrane, storm flap with silent magnetic closures, and hidden interior chest pocket.",
+      "fabric": "3-Layer Recycled Nylon Membrane with PFC-free DWR weather shield. 15,000mm waterproof rating.",
+      "origin": "Engineered in Ishikawa, Japan.",
+      "images": [
+        "https://images.unsplash.com/photo-1544022613-e87ca75a784a?auto=format&fit=crop&w=1000&q=80",
+        "https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&w=1000&q=80"
+      ],
+      "colors": [
+        {
+          "name": "Mineral Stone",
+          "hex": "#95968F"
+        },
+        {
+          "name": "Pitch Black",
+          "hex": "#111215"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizingGuide": {
+        "S": {
+          "chest": "44 in / 112 cm",
+          "length": "34 in / 86 cm",
+          "shoulder": "20.5 in / 52 cm"
+        },
+        "M": {
+          "chest": "47 in / 119 cm",
+          "length": "35 in / 89 cm",
+          "shoulder": "21.5 in / 55 cm"
+        },
+        "L": {
+          "chest": "50 in / 127 cm",
+          "length": "36 in / 91 cm",
+          "shoulder": "22.5 in / 57 cm"
+        },
+        "XL": {
+          "chest": "53 in / 135 cm",
+          "length": "37 in / 94 cm",
+          "shoulder": "23.5 in / 60 cm"
+        }
+      },
+      "reviews": [
+        {
+          "id": "rev-6",
+          "user": "Sophia L.",
+          "rating": 5,
+          "date": "5 days ago",
+          "comment": "The silent magnetic closure is pure genius. Sleek silhouette even over chunky knits."
+        }
+      ]
+    }
+  ],
+  "analytics": {
+    "summary": {
+      "totalRevenue": 54820,
+      "totalOrders": 428,
+      "averageOrderValue": 128.08,
+      "activeProductsCount": 3,
+      "lowStockCount": 1
+    },
+    "revenueTrend": [
+      {
+        "date": "Sep 12",
+        "revenue": 6420,
+        "orders": 48,
+        "visitors": 820
+      },
+      {
+        "date": "Sep 13",
+        "revenue": 7150,
+        "orders": 54,
+        "visitors": 940
+      },
+      {
+        "date": "Sep 14",
+        "revenue": 8320,
+        "orders": 62,
+        "visitors": 1100
+      },
+      {
+        "date": "Sep 15",
+        "revenue": 6980,
+        "orders": 51,
+        "visitors": 890
+      },
+      {
+        "date": "Sep 16",
+        "revenue": 9140,
+        "orders": 69,
+        "visitors": 1250
+      },
+      {
+        "date": "Sep 17",
+        "revenue": 8120,
+        "orders": 60,
+        "visitors": 1080
+      },
+      {
+        "date": "Sep 18",
+        "revenue": 8690,
+        "orders": 64,
+        "visitors": 1160
+      }
+    ],
+    "categorySales": [
+      {
+        "name": "Heavyweight Tees",
+        "value": 16840,
+        "share": 31,
+        "color": "#1A73E8"
+      },
+      {
+        "name": "Hoodies & Sweats",
+        "value": 18450,
+        "share": 34,
+        "color": "#1E8E3E"
+      },
+      {
+        "name": "Minimal Pants",
+        "value": 10680,
+        "share": 19,
+        "color": "#F9AB00"
+      },
+      {
+        "name": "Outerwear",
+        "value": 8850,
+        "share": 16,
+        "color": "#D93025"
+      }
+    ],
+    "topProducts": [
+      {
+        "name": "Architectural French Terry Hoodie",
+        "unitsSold": 156,
+        "revenue": 18408,
+        "stock": 7
+      },
+      {
+        "name": "Heavyweight Boxy Organic Tee",
+        "unitsSold": 284,
+        "revenue": 13632,
+        "stock": 28
+      },
+      {
+        "name": "Pleated Relaxed Minimal Trouser",
+        "unitsSold": 112,
+        "revenue": 10752,
+        "stock": 14
+      },
+      {
+        "name": "Tailored Minimalist Wool Overcoat",
+        "unitsSold": 36,
+        "revenue": 8820,
+        "stock": 8
+      },
+      {
+        "name": "Water-Repellent Minimalist Shell Parka",
+        "unitsSold": 42,
+        "revenue": 7770,
+        "stock": 5
+      }
+    ]
+  }
+}
