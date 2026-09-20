@@ -1,4 +1,3 @@
-import { cert, getApps, initializeApp } from 'firebase-admin/app';
 import { adminAccounts } from './productsData.js';
 
 export const ALLOWED_ADMIN_EMAILS = (adminAccounts || []).map(account => account.email || '').filter(Boolean);
@@ -21,20 +20,6 @@ function decodeDemoAdminToken(token) {
   } catch {
     return null;
   }
-}
-
-let firebaseAuth;
-
-async function getFirebaseAuth() {
-  if (!getApps().length) {
-    const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
-    initializeApp(serviceAccount ? { credential: cert(JSON.parse(serviceAccount)) } : undefined);
-  }
-  if (!firebaseAuth) {
-    const { getAuth } = await import('firebase-admin/auth');
-    firebaseAuth = getAuth();
-  }
-  return firebaseAuth;
 }
 
 export async function requireAdmin(req, res, next) {
@@ -64,25 +49,9 @@ export async function requireAdmin(req, res, next) {
     });
   }
 
-  try {
-    const decodedToken = await (await getFirebaseAuth()).verifyIdToken(token);
-    const normalizedEmail = String(decodedToken.email || '').trim().toLowerCase();
-
-    if (!ALLOWED_ADMIN_EMAILS.map(e => e.toLowerCase()).includes(normalizedEmail)) {
-      return res.status(403).json({
-        success: false,
-        error: '403 Unauthorized: Access strictly restricted',
-        message: 'Access denied. Administrator privileges are required.'
-      });
-    }
-
-    req.adminUser = { uid: decodedToken.uid, email: normalizedEmail, role: 'admin' };
-    return next();
-  } catch {
-    return res.status(401).json({
-      success: false,
-      error: '401 Unauthorized: Invalid Firebase ID token'
-    });
-  }
+  return res.status(401).json({
+    success: false,
+    error: '401 Unauthorized: Use the authorized demo admin sign-in.'
+  });
 
 }
