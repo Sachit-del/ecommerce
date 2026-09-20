@@ -730,7 +730,7 @@ export default function AdminDashboard({ products, setProducts, onOpenAuthModal,
 
                     {/* Price */}
                     <td style={{ padding: '12px 16px', fontWeight: '600', color: 'var(--text-primary)' }}>
-                      ${p.price.toFixed(2)}
+                      ${Number(p.price || 0).toFixed(2)}
                     </td>
 
                     {/* Stock */}

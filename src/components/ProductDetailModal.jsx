@@ -222,11 +222,11 @@ export default function ProductDetailModal({ product, onClose, onReviewAdded }) 
 
               <div style={{ display: 'flex', alignItems: 'baseline', gap: '10px' }}>
                 <span style={{ fontSize: '24px', fontWeight: '700', color: 'var(--text-primary)' }}>
-                  ${product.price.toFixed(2)}
+                  ${Number(product.price || 0).toFixed(2)}
                 </span>
                 {product.originalPrice && (
                   <span style={{ fontSize: '16px', color: 'var(--text-muted)', textDecoration: 'line-through' }}>
-                    ${product.originalPrice.toFixed(2)}
+                    ${Number(product.originalPrice || 0).toFixed(2)}
                   </span>
                 )}
                 <span style={{ fontSize: '12px', color: 'var(--google-green)', fontWeight: '600', backgroundColor: 'var(--google-green-surface)', padding: '2px 8px', borderRadius: 'var(--radius-full)' }}>

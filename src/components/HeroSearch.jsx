@@ -310,7 +310,7 @@ export default function HeroSearch({
                     {item.name}
                   </div>
                   <div style={{ fontSize: '12.5px', color: 'var(--text-secondary)' }}>
-                    {item.category} • <strong style={{ color: 'var(--text-primary)' }}>${item.price.toFixed(2)}</strong>
+                    {item.category} • <strong style={{ color: 'var(--text-primary)' }}>${Number(item.price || 0).toFixed(2)}</strong>
                     {item.stock < 10 && (
                       <span style={{ marginLeft: '8px', color: '#B06000', fontWeight: '600', fontSize: '11px' }}>
                         • Only {item.stock} left

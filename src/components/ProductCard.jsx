@@ -187,7 +187,7 @@ export default function ProductCard({ product, onOpenDetail }) {
               fontWeight: '700',
               color: 'var(--text-primary)'
             }}>
-              ${product.price.toFixed(2)}
+              ${Number(product.price || 0).toFixed(2)}
             </span>
             {product.originalPrice && (
               <span style={{
@@ -195,7 +195,7 @@ export default function ProductCard({ product, onOpenDetail }) {
                 color: 'var(--text-muted)',
                 textDecoration: 'line-through'
               }}>
-                ${product.originalPrice.toFixed(2)}
+                ${Number(product.originalPrice || 0).toFixed(2)}
               </span>
             )}
           </div>
