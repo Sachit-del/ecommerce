@@ -29,7 +29,7 @@ let firestoreLoadPromise;
 async function ensureFirestoreDataLoaded() {
   if (!firestoreEnabled) return;
   if (!firestoreLoadPromise) {
-    firestoreLoadPromise = loadFirestoreData().then(data => {
+    firestoreLoadPromise = loadFirestoreData({ products, orders, analytics }).then(data => {
       if (!data) return;
       if (data.products.length > 0) products = data.products;
       if (data.orders.length > 0) orders = data.orders;

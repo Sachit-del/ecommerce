@@ -17,7 +17,7 @@ function getDatabase() {
   return database;
 }
 
-export async function loadFirestoreData() {
+export async function loadFirestoreData(fallbackData = {}) {
   const db = getDatabase();
   if (!db) return null;
 
@@ -27,10 +27,28 @@ export async function loadFirestoreData() {
     db.collection('settings').doc('analytics').get()
   ]);
 
+  const products = productsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  const orders = ordersSnapshot.docs.map(doc => doc.data());
+  const analytics = settingsSnapshot.exists ? settingsSnapshot.data() : null;
+
+  if (products.length === 0 && Array.isArray(fallbackData.products) && fallbackData.products.length > 0) {
+    const batch = db.batch();
+    fallbackData.products.forEach(product => {
+      batch.set(db.collection('products').doc(product.id), product);
+    });
+    (fallbackData.orders || []).forEach(order => {
+      batch.set(db.collection('orders').doc(order.id), order);
+    });
+    if (fallbackData.analytics) {
+      batch.set(db.collection('settings').doc('analytics'), fallbackData.analytics);
+    }
+    await batch.commit();
+  }
+
   return {
-    products: productsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })),
-    orders: ordersSnapshot.docs.map(doc => doc.data()),
-    analytics: settingsSnapshot.exists ? settingsSnapshot.data() : null
+    products: products.length > 0 ? products : (fallbackData.products || []),
+    orders: orders.length > 0 ? orders : (fallbackData.orders || []),
+    analytics: analytics || fallbackData.analytics || null
   };
 }
 
