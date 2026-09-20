@@ -212,11 +212,6 @@ export default function AdminDashboard({ products, setProducts, onOpenAuthModal,
     e.preventDefault();
     if (!formData.name || !formData.price || !formData.stock) return;
 
-    if (!editingProduct && products.length >= 5) {
-      window.alert('Maximum of 5 items allowed. Delete an existing item before adding another one.');
-      return;
-    }
-
     // Parse colors
     const colorsParsed = formData.colors.split(',').map(c => {
       const match = c.match(/(.*)\((.*)\)/);
@@ -361,17 +356,14 @@ export default function AdminDashboard({ products, setProducts, onOpenAuthModal,
           <button
             onClick={handleOpenAddModal}
             className="btn-google-primary"
-            disabled={products.length >= 5}
             style={{
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
-              fontSize: '13px',
-              opacity: products.length >= 5 ? 0.55 : 1,
-              cursor: products.length >= 5 ? 'not-allowed' : 'pointer'
+              fontSize: '13px'
             }}
           >
-            <Plus size={16} /> {products.length >= 5 ? 'Limit Reached' : 'Add Clothing Item'}
+            <Plus size={16} /> Add Clothing Item
           </button>
         </div>
       </div>
@@ -557,6 +549,44 @@ export default function AdminDashboard({ products, setProducts, onOpenAuthModal,
             </BarChart>
           </ResponsiveContainer>
         </div>
+      </div>
+
+      {/* Recent customer purchases */}
+      <div className="card-google" style={{ overflow: 'hidden', marginBottom: '40px' }}>
+        <div style={{ padding: '20px 24px', borderBottom: '1px solid var(--border-subtle)', backgroundColor: 'var(--bg-secondary)' }}>
+          <h3 style={{ fontSize: '17px', fontWeight: '600', color: 'var(--text-primary)' }}>Recent Purchases</h3>
+          <p style={{ fontSize: '12.5px', color: 'var(--text-secondary)' }}>Orders placed by customers appear here after checkout.</p>
+        </div>
+        {(analyticsData?.recentOrders || []).length > 0 ? (
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '13.5px' }}>
+              <thead style={{ backgroundColor: 'var(--bg-secondary)', color: 'var(--text-secondary)' }}>
+                <tr>
+                  <th style={{ padding: '12px 20px', fontWeight: '600' }}>Order</th>
+                  <th style={{ padding: '12px 16px', fontWeight: '600' }}>Customer</th>
+                  <th style={{ padding: '12px 16px', fontWeight: '600' }}>Purchaser Email</th>
+                  <th style={{ padding: '12px 16px', fontWeight: '600' }}>Items</th>
+                  <th style={{ padding: '12px 16px', fontWeight: '600' }}>Total</th>
+                  <th style={{ padding: '12px 20px', fontWeight: '600' }}>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {analyticsData.recentOrders.map(order => (
+                  <tr key={order.id} style={{ borderBottom: '1px solid var(--border-subtle)' }}>
+                    <td style={{ padding: '12px 20px', fontWeight: '600', color: 'var(--text-primary)' }}>{order.id}</td>
+                    <td style={{ padding: '12px 16px', color: 'var(--text-secondary)' }}>{order.customer}</td>
+                    <td style={{ padding: '12px 16px', color: 'var(--text-secondary)' }}>{order.email || 'Not provided'}</td>
+                    <td style={{ padding: '12px 16px', color: 'var(--text-secondary)' }}>{order.itemsCount}</td>
+                    <td style={{ padding: '12px 16px', fontWeight: '600', color: 'var(--text-primary)' }}>${order.total.toFixed(2)}</td>
+                    <td style={{ padding: '12px 20px', color: 'var(--google-green)', fontWeight: '600' }}>{order.status}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <p style={{ padding: '24px', margin: 0, color: 'var(--text-secondary)', fontSize: '13px' }}>No purchases yet.</p>
+        )}
       </div>
 
       {/* Inventory Management Table (CRUD) */}

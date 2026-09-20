@@ -15,7 +15,7 @@ import Footer from './components/Footer';
 import appData from '../server/data.json';
 import './App.css';
 
-const initialProducts = (appData.products || []).slice(0, 5);
+const initialProducts = appData.products || [];
 
 function MainApp() {
   const [currentView, setCurrentView] = useState('catalog'); // 'catalog' | 'admin'

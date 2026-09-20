@@ -11,6 +11,122 @@
   ],
   "products": [
     {
+      "id": "th-6073",
+      "name": "sada",
+      "sku": "TH-HEA-86",
+      "category": "Heavyweight Tees",
+      "price": 4,
+      "originalPrice": 4.6,
+      "rating": 5,
+      "reviewsCount": 1,
+      "stock": 5,
+      "isFeatured": false,
+      "isNew": true,
+      "description": "dasda",
+      "fabric": "100% GOTS Certified Organic Cotton (280 GSM)",
+      "origin": "Ethically crafted in Portugal.",
+      "images": [
+        "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1000&q=80"
+      ],
+      "colors": [
+        {
+          "name": "Oat Chalk",
+          "hex": "#F3EFEA"
+        },
+        {
+          "name": "Carbon Slate",
+          "hex": "#22252A"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizingGuide": {
+        "S": {
+          "chest": "41 in / 104 cm",
+          "length": "27.5 in / 70 cm",
+          "shoulder": "19.5 in / 50 cm"
+        },
+        "M": {
+          "chest": "44 in / 112 cm",
+          "length": "28.5 in / 72 cm",
+          "shoulder": "20.5 in / 52 cm"
+        },
+        "L": {
+          "chest": "47 in / 119 cm",
+          "length": "29.5 in / 75 cm",
+          "shoulder": "21.5 in / 55 cm"
+        },
+        "XL": {
+          "chest": "50 in / 127 cm",
+          "length": "30.5 in / 77 cm",
+          "shoulder": "22.5 in / 57 cm"
+        }
+      },
+      "reviews": []
+    },
+    {
+      "id": "th-4886",
+      "name": "jeans",
+      "sku": "TH-MIN-16",
+      "category": "Minimal Pants",
+      "price": 56,
+      "originalPrice": 64.39999999999999,
+      "rating": 5,
+      "reviewsCount": 1,
+      "stock": 2,
+      "isFeatured": false,
+      "isNew": true,
+      "description": "sad",
+      "fabric": "100% GOTS Certified Organic Cotton (280 GSM)",
+      "origin": "Ethically crafted in Portugal.",
+      "images": [
+        "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1000&q=80"
+      ],
+      "colors": [
+        {
+          "name": "Oat Chalk",
+          "hex": "#F3EFEA"
+        },
+        {
+          "name": "Carbon Slate",
+          "hex": "#22252A"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizingGuide": {
+        "S": {
+          "chest": "41 in / 104 cm",
+          "length": "27.5 in / 70 cm",
+          "shoulder": "19.5 in / 50 cm"
+        },
+        "M": {
+          "chest": "44 in / 112 cm",
+          "length": "28.5 in / 72 cm",
+          "shoulder": "20.5 in / 52 cm"
+        },
+        "L": {
+          "chest": "47 in / 119 cm",
+          "length": "29.5 in / 75 cm",
+          "shoulder": "21.5 in / 55 cm"
+        },
+        "XL": {
+          "chest": "50 in / 127 cm",
+          "length": "30.5 in / 77 cm",
+          "shoulder": "22.5 in / 57 cm"
+        }
+      },
+      "reviews": []
+    },
+    {
       "id": "th-01",
       "name": "Heavyweight Boxy Organic Tee",
       "sku": "TH-TEE-01",
@@ -179,7 +295,7 @@
       "originalPrice": 220,
       "rating": 4.92,
       "reviewsCount": 64,
-      "stock": 5,
+      "stock": 4,
       "isFeatured": true,
       "isNew": false,
       "description": "An understated technical shell featuring seam-sealed Japanese waterproof membrane, storm flap with silent magnetic closures, and hidden interior chest pocket.",
@@ -240,11 +356,11 @@
   ],
   "analytics": {
     "summary": {
-      "totalRevenue": 54820,
-      "totalOrders": 428,
-      "averageOrderValue": 128.08,
-      "activeProductsCount": 3,
-      "lowStockCount": 1
+      "totalRevenue": 55005,
+      "totalOrders": 429,
+      "averageOrderValue": 128.22,
+      "activeProductsCount": 5,
+      "lowStockCount": 3
     },
     "revenueTrend": [
       {
@@ -348,5 +464,27 @@
         "stock": 5
       }
     ]
-  }
+  },
+  "orders": [
+    {
+      "id": "ORD-TH-577770",
+      "date": "2026-09-20T06:59:37.770Z",
+      "customer": "Administrator",
+      "email": "admin@gmail.com",
+      "itemsCount": 1,
+      "total": 185,
+      "items": [
+        {
+          "id": "th-04",
+          "name": "Water-Repellent Minimalist Shell Parka",
+          "price": 185,
+          "quantity": 1,
+          "size": "S"
+        }
+      ],
+      "status": "Confirmed",
+      "paymentMethod": "Google Pay",
+      "shippingAddress": "1600 Amphitheatre Pkwy, Mountain View, CA 94043"
+    }
+  ]
 }

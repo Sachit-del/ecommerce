@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { X, CheckCircle, CreditCard, ShieldCheck, ArrowRight, Printer, Sparkles } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
@@ -19,6 +19,12 @@ export default function CheckoutModal({ onOrderComplete }) {
   });
   const [confirmedOrder, setConfirmedOrder] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    if (currentUser?.email) {
+      setFormData(prev => ({ ...prev, email: currentUser.email }));
+    }
+  }, [currentUser]);
 
   if (!isCheckoutOpen) return null;
 
@@ -145,6 +151,29 @@ export default function CheckoutModal({ onOrderComplete }) {
                   name="fullName"
                   value={formData.fullName}
                   onChange={handleInputChange}
+                  style={{
+                    width: '100%',
+                    padding: '10px 14px',
+                    border: '1px solid var(--border-color)',
+                    borderRadius: 'var(--radius-sm)',
+                    backgroundColor: 'var(--bg-primary)',
+                    color: 'var(--text-primary)',
+                    fontSize: '14px',
+                    outline: 'none'
+                  }}
+                />
+              </div>
+
+              <div>
+                <label style={{ display: 'block', fontSize: '12px', fontWeight: '600', marginBottom: '6px' }}>
+                  Purchaser Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
                   style={{
                     width: '100%',
                     padding: '10px 14px',

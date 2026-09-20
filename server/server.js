@@ -21,16 +21,21 @@ app.use(cors({
 }));
 app.use(express.json());
 
+const persistedData = fs.existsSync(dataFilePath)
+  ? JSON.parse(fs.readFileSync(dataFilePath, 'utf8'))
+  : {};
+
 // In-Memory Database state
-let products = [...initialProducts];
-let analytics = JSON.parse(JSON.stringify(initialAnalytics));
-let orders = [];
+let products = Array.isArray(persistedData.products) ? persistedData.products : [...initialProducts];
+let analytics = persistedData.analytics || JSON.parse(JSON.stringify(initialAnalytics));
+let orders = Array.isArray(persistedData.orders) ? persistedData.orders : [];
 
 function persistData() {
   const payload = {
     admins: adminAccounts || [],
     products,
-    analytics
+    analytics,
+    orders
   };
 
   fs.writeFileSync(dataFilePath, JSON.stringify(payload, null, 2), 'utf8');
@@ -158,13 +163,6 @@ app.post('/api/products', requireAdmin, (req, res) => {
 
   if (!name || !price || stock === undefined) {
     return res.status(400).json({ error: "Name, price, and stock are required" });
-  }
-
-  if (products.length >= 5) {
-    return res.status(400).json({
-      success: false,
-      error: 'Maximum of 5 products allowed. Delete an item before adding another.'
-    });
   }
 
   const newProduct = {
@@ -364,6 +362,7 @@ app.post('/api/orders', (req, res) => {
   analytics.summary.totalOrders += 1;
   analytics.summary.averageOrderValue = +(analytics.summary.totalRevenue / analytics.summary.totalOrders).toFixed(2);
   refreshAnalytics();
+  persistData();
 
   res.status(201).json({
     success: true,
