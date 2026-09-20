@@ -27,7 +27,19 @@ export async function loadFirestoreData(fallbackData = {}) {
     db.collection('settings').doc('analytics').get()
   ]);
 
-  const products = productsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  const products = productsSnapshot.docs
+    .map(doc => ({ id: doc.id, ...doc.data() }))
+    .filter(product => (
+      product.id &&
+      typeof product.name === 'string' &&
+      product.name.trim() &&
+      Number.isFinite(Number(product.price))
+    ))
+    .map(product => ({
+      ...product,
+      price: Number(product.price),
+      stock: Number.isFinite(Number(product.stock)) ? Number(product.stock) : 0
+    }));
   const orders = ordersSnapshot.docs.map(doc => doc.data());
   const analytics = settingsSnapshot.exists ? settingsSnapshot.data() : null;
 
