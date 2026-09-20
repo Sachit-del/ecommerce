@@ -450,7 +450,11 @@ app.post('/api/orders', async (req, res) => {
 
 // Health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: "healthy", timestamp: new Date().toISOString() });
+  res.json({
+    status: "healthy",
+    firestoreConfigured: firestoreEnabled,
+    timestamp: new Date().toISOString()
+  });
 });
 
 export default app;
