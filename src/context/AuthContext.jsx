@@ -217,6 +217,9 @@ export function AuthProvider({ children }) {
       getIdToken: async () => {
         const demoToken = localStorage.getItem('thread_demo_admin_token');
         if (demoToken) return demoToken;
+        if (currentUser?.email && ALLOWED_ADMINS.map(e => e.toLowerCase()).includes(currentUser.email.toLowerCase())) {
+          return buildDemoAdminToken(currentUser.email);
+        }
         return auth.currentUser?.getIdToken ? auth.currentUser.getIdToken() : null;
       },
       ALLOWED_ADMINS
