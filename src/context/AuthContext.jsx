@@ -17,8 +17,8 @@ export const ALLOWED_ADMINS = [
   'sachitmohite6@gmail.com'
 ];
 
-export const DEMO_ADMIN_PASSWORD = 'admin1234';
-export const MIN_PASSWORD_LENGTH = 9;
+export const DEMO_ADMIN_PASSWORD = 'admin123';
+export const MIN_PASSWORD_LENGTH = 8;
 
 const normalizeEmail = (value) => String(value || '').trim().toLowerCase();
 

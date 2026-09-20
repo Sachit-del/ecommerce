@@ -36,8 +36,8 @@ export default function AuthModal({ isOpen, onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    if (password.length < 9) {
-      setError('Password must be at least 9 characters long.');
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters long.');
       return;
     }
     setLoading(true);
@@ -263,10 +263,10 @@ export default function AuthModal({ isOpen, onClose }) {
               <input
                 type="password"
                 required
-                minLength={9}
+                minLength={8}
                 value={password}
                 onChange={e => setPassword(e.target.value)}
-                placeholder="At least 9 characters"
+                placeholder="At least 8 characters"
                 style={{
                   width: '100%',
                   padding: '10px 14px 10px 38px',

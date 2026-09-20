@@ -2,11 +2,11 @@
   "admins": [
     {
       "email": "admin@gmail.com",
-      "password": "admin1234"
+      "password": "admin123"
     },
     {
       "email": "sachitmohite6@gmail.com",
-      "password": "admin1234"
+      "password": "admin123"
     }
   ],
   "products": [
