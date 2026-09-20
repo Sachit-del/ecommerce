@@ -51,6 +51,7 @@ export default function AdminDashboard({ products, setProducts, onOpenAuthModal,
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [deletingProduct, setDeletingProduct] = useState(null);
+  const [productFormError, setProductFormError] = useState('');
 
   // Form State for Add / Edit
   const [formData, setFormData] = useState({
@@ -179,6 +180,7 @@ export default function AdminDashboard({ products, setProducts, onOpenAuthModal,
   // CRUD Handlers
   // -------------------------------------------------------------------------
   const handleOpenAddModal = () => {
+    setProductFormError('');
     setFormData({
       name: '',
       category: 'Heavyweight Tees',
@@ -194,6 +196,7 @@ export default function AdminDashboard({ products, setProducts, onOpenAuthModal,
   };
 
   const handleOpenEditModal = (product) => {
+    setProductFormError('');
     setEditingProduct(product);
     setFormData({
       name: product.name,
@@ -210,7 +213,16 @@ export default function AdminDashboard({ products, setProducts, onOpenAuthModal,
 
   const handleSaveProduct = async (e) => {
     e.preventDefault();
-    if (!formData.name || !formData.price || !formData.stock) return;
+    const price = Number(formData.price);
+    const stock = Number(formData.stock);
+    if (!formData.name.trim() || formData.price === '' || formData.stock === '') {
+      setProductFormError('Product name, price, and stock are required.');
+      return;
+    }
+    if (!Number.isFinite(price) || price <= 0 || !Number.isInteger(stock) || stock < 0) {
+      setProductFormError('Enter a valid price and a whole-number stock value of 0 or more.');
+      return;
+    }
 
     // Parse colors
     const colorsParsed = formData.colors.split(',').map(c => {
@@ -226,8 +238,8 @@ export default function AdminDashboard({ products, setProducts, onOpenAuthModal,
     const payload = {
       name: formData.name,
       category: formData.category,
-      price: parseFloat(formData.price),
-      stock: parseInt(formData.stock, 10),
+      price,
+      stock,
       description: formData.description,
       fabric: formData.fabric,
       images: [formData.imageUrl],
@@ -247,7 +259,10 @@ export default function AdminDashboard({ products, setProducts, onOpenAuthModal,
         if (res.ok) {
           const data = await res.json();
           setProducts(prev => prev.map(p => p.id === editingProduct.id ? data.product : p));
-        } else throw new Error('Product update failed');
+        } else {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(data.error || 'Product update failed');
+        }
         setEditingProduct(null);
       } else {
         // POST create
@@ -260,14 +275,17 @@ export default function AdminDashboard({ products, setProducts, onOpenAuthModal,
         if (res.ok) {
           const data = await res.json();
           setProducts(prev => [data.product, ...prev]);
-        } else throw new Error('Product creation failed');
+        } else {
+          const data = await res.json().catch(() => ({}));
+          throw new Error(data.error || 'Product creation failed');
+        }
         setIsAddModalOpen(false);
       }
+      setProductFormError('');
       fetchAnalytics();
     } catch (err) {
       console.error(err);
-      if (editingProduct) setEditingProduct(null);
-      else setIsAddModalOpen(false);
+      setProductFormError(err.message || 'Unable to save this product. Please try again.');
     }
   };
 
@@ -908,6 +926,12 @@ export default function AdminDashboard({ products, setProducts, onOpenAuthModal,
                   style={{ width: '100%', padding: '8px 12px', border: '1px solid var(--border-color)', borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--bg-secondary)', color: 'var(--text-primary)', resize: 'vertical' }}
                 />
               </div>
+
+              {productFormError && (
+                <div style={{ padding: '10px 12px', borderRadius: 'var(--radius-sm)', backgroundColor: 'var(--google-red-surface)', color: 'var(--google-red)', fontSize: '12.5px' }}>
+                  {productFormError}
+                </div>
+              )}
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px', marginTop: '12px' }}>
                 <button
