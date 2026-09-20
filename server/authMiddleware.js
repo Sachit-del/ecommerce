@@ -1,5 +1,4 @@
 import { cert, getApps, initializeApp } from 'firebase-admin/app';
-import { getAuth } from 'firebase-admin/auth';
 import { adminAccounts } from './productsData.js';
 
 export const ALLOWED_ADMIN_EMAILS = (adminAccounts || []).map(account => account.email || '').filter(Boolean);
@@ -24,12 +23,18 @@ function decodeDemoAdminToken(token) {
   }
 }
 
-function getFirebaseAuth() {
+let firebaseAuth;
+
+async function getFirebaseAuth() {
   if (!getApps().length) {
     const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
     initializeApp(serviceAccount ? { credential: cert(JSON.parse(serviceAccount)) } : undefined);
   }
-  return getAuth();
+  if (!firebaseAuth) {
+    const { getAuth } = await import('firebase-admin/auth');
+    firebaseAuth = getAuth();
+  }
+  return firebaseAuth;
 }
 
 export async function requireAdmin(req, res, next) {
@@ -60,7 +65,7 @@ export async function requireAdmin(req, res, next) {
   }
 
   try {
-    const decodedToken = await getFirebaseAuth().verifyIdToken(token);
+    const decodedToken = await (await getFirebaseAuth()).verifyIdToken(token);
     const normalizedEmail = String(decodedToken.email || '').trim().toLowerCase();
 
     if (!ALLOWED_ADMIN_EMAILS.map(e => e.toLowerCase()).includes(normalizedEmail)) {
