@@ -1,4 +1,7 @@
-import parsed from './data.json' with { type: 'json' };
+import { createRequire } from 'node:module';
+
+const require = createRequire(import.meta.url);
+const parsed = require('./data.json');
 
 export const initialProducts = parsed.products || [];
 export const initialAnalytics = parsed.analytics || {
