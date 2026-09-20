@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { initialProducts, initialAnalytics, adminAccounts } from './productsData.js';
-import { requireAdmin, buildDemoAdminToken, DEMO_ADMIN_PASSWORD, ALLOWED_ADMIN_EMAILS } from './authMiddleware.js';
+import { requireAdmin, buildDemoAdminToken, DEMO_ADMIN_PASSWORD, ALLOWED_ADMIN_EMAILS, MIN_PASSWORD_LENGTH } from './authMiddleware.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -56,6 +56,9 @@ app.post('/api/auth/login', (req, res) => {
 
   if (!email || !password) {
     return res.status(400).json({ error: "Email and password are required" });
+  }
+  if (String(password).length < MIN_PASSWORD_LENGTH) {
+    return res.status(400).json({ error: `Password must be at least ${MIN_PASSWORD_LENGTH} characters long.` });
   }
 
   const normalizedEmail = email.trim().toLowerCase();

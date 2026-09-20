@@ -4,7 +4,8 @@ import { adminAccounts } from './productsData.js';
 
 export const ALLOWED_ADMIN_EMAILS = (adminAccounts || []).map(account => account.email || '').filter(Boolean);
 
-export const DEMO_ADMIN_PASSWORD = 'admin123';
+export const DEMO_ADMIN_PASSWORD = 'admin1234';
+export const MIN_PASSWORD_LENGTH = 9;
 
 export function buildDemoAdminToken(email) {
   return `demo-admin.${encodeURIComponent(String(email || '').trim().toLowerCase())}`;

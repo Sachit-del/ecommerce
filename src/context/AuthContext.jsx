@@ -17,7 +17,8 @@ export const ALLOWED_ADMINS = [
   'sachitmohite6@gmail.com'
 ];
 
-export const DEMO_ADMIN_PASSWORD = 'admin123';
+export const DEMO_ADMIN_PASSWORD = 'admin1234';
+export const MIN_PASSWORD_LENGTH = 9;
 
 const normalizeEmail = (value) => String(value || '').trim().toLowerCase();
 
@@ -126,6 +127,10 @@ export function AuthProvider({ children }) {
   const loginWithEmail = async (email, password) => {
     const normalized = normalizeEmail(email);
 
+    if (String(password || '').length < MIN_PASSWORD_LENGTH) {
+      throw new Error(`Password must be at least ${MIN_PASSWORD_LENGTH} characters long.`);
+    }
+
     if (isDemoAdminLogin(normalized, password)) {
       const userObj = {
         uid: `demo-${normalized.replace(/[^a-z0-9]/gi, '')}`,
@@ -165,6 +170,9 @@ export function AuthProvider({ children }) {
   // Firebase Email & Password Registration
   const signupWithEmail = async (email, password, name = '') => {
     const normalized = email.trim().toLowerCase();
+    if (String(password || '').length < MIN_PASSWORD_LENGTH) {
+      throw new Error(`Password must be at least ${MIN_PASSWORD_LENGTH} characters long.`);
+    }
     try {
       const result = await createUserWithEmailAndPassword(auth, normalized, password);
       const isAdm = ALLOWED_ADMINS.map(e => e.toLowerCase()).includes(normalized);
