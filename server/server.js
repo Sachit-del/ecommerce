@@ -8,7 +8,9 @@ import { requireAdmin, buildDemoAdminToken, DEMO_ADMIN_PASSWORD, ALLOWED_ADMIN_E
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const dataFilePath = path.join(__dirname, 'data.json');
+const dataFilePath = process.env.VERCEL
+  ? path.join('/tmp', 'thread-data.json')
+  : path.join(__dirname, 'data.json');
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -388,7 +390,11 @@ app.get('/api/health', (req, res) => {
   res.json({ status: "healthy", timestamp: new Date().toISOString() });
 });
 
-// Start Express server
-app.listen(PORT, () => {
-  console.log(`[THREAD Server] Backend API running at http://localhost:${PORT}`);
-});
+export default app;
+
+// Vercel imports the app as a serverless function; local development uses Express directly.
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`[THREAD Server] Backend API running at http://localhost:${PORT}`);
+  });
+}
