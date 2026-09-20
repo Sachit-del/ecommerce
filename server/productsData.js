@@ -1,14 +1,6 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
+import parsed from './data.json' with { type: 'json' };
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const dataPath = path.join(__dirname, 'data.json');
-const raw = fs.readFileSync(dataPath, 'utf8');
-const parsed = JSON.parse(raw);
-
-export const initialProducts = (parsed.products || []).slice(0, 5);
+export const initialProducts = parsed.products || [];
 export const initialAnalytics = parsed.analytics || {
   summary: {
     totalRevenue: 0,
