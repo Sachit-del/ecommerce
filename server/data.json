@@ -11,6 +11,64 @@
   ],
   "products": [
     {
+      "id": "th-7833",
+      "name": "cazfc",
+      "sku": "TH-HEA-80",
+      "category": "Heavyweight Tees",
+      "price": 3,
+      "originalPrice": 3.4499999999999997,
+      "rating": 5,
+      "reviewsCount": 1,
+      "stock": 4,
+      "isFeatured": false,
+      "isNew": true,
+      "description": "sr",
+      "fabric": "100% GOTS Certified Organic Cotton (280 GSM)",
+      "origin": "Ethically crafted in Portugal.",
+      "images": [
+        "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?auto=format&fit=crop&w=1000&q=80"
+      ],
+      "colors": [
+        {
+          "name": "Oat Chalk",
+          "hex": "#F3EFEA"
+        },
+        {
+          "name": "Carbon Slate",
+          "hex": "#22252A"
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "sizingGuide": {
+        "S": {
+          "chest": "41 in / 104 cm",
+          "length": "27.5 in / 70 cm",
+          "shoulder": "19.5 in / 50 cm"
+        },
+        "M": {
+          "chest": "44 in / 112 cm",
+          "length": "28.5 in / 72 cm",
+          "shoulder": "20.5 in / 52 cm"
+        },
+        "L": {
+          "chest": "47 in / 119 cm",
+          "length": "29.5 in / 75 cm",
+          "shoulder": "21.5 in / 55 cm"
+        },
+        "XL": {
+          "chest": "50 in / 127 cm",
+          "length": "30.5 in / 77 cm",
+          "shoulder": "22.5 in / 57 cm"
+        }
+      },
+      "reviews": []
+    },
+    {
       "id": "th-6329",
       "name": "kljkl",
       "sku": "TH-HEA-12",
@@ -475,8 +533,8 @@
       "totalRevenue": 55005,
       "totalOrders": 429,
       "averageOrderValue": 128.22,
-      "activeProductsCount": 7,
-      "lowStockCount": 3
+      "activeProductsCount": 8,
+      "lowStockCount": 4
     },
     "revenueTrend": [
       {
