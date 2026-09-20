@@ -5,6 +5,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import { initialProducts, initialAnalytics, adminAccounts } from './productsData.js';
 import { requireAdmin, buildDemoAdminToken, DEMO_ADMIN_PASSWORD, ALLOWED_ADMIN_EMAILS, MIN_PASSWORD_LENGTH } from './authMiddleware.js';
+import { firestoreEnabled, loadFirestoreData, saveAnalytics, saveOrder, saveProduct, deleteProduct } from './firestoreStore.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -22,6 +23,32 @@ app.use(cors({
   allowedHeaders: ['Content-Type', 'Authorization', 'x-user-email']
 }));
 app.use(express.json());
+
+let firestoreLoadPromise;
+
+async function ensureFirestoreDataLoaded() {
+  if (!firestoreEnabled) return;
+  if (!firestoreLoadPromise) {
+    firestoreLoadPromise = loadFirestoreData().then(data => {
+      if (!data) return;
+      if (data.products.length > 0) products = data.products;
+      if (data.orders.length > 0) orders = data.orders;
+      if (data.analytics) analytics = { ...analytics, ...data.analytics };
+      refreshAnalytics();
+    });
+  }
+  await firestoreLoadPromise;
+}
+
+app.use(async (req, res, next) => {
+  try {
+    await ensureFirestoreDataLoaded();
+    next();
+  } catch (error) {
+    console.error('Firestore initialization failed:', error);
+    res.status(503).json({ error: 'Database is not available. Check Firebase server credentials.' });
+  }
+});
 
 const persistedData = fs.existsSync(dataFilePath)
   ? JSON.parse(fs.readFileSync(dataFilePath, 'utf8'))
@@ -165,7 +192,7 @@ app.get('/api/products/:id', (req, res) => {
 });
 
 // POST /api/products (Admin protected)
-app.post('/api/products', requireAdmin, (req, res) => {
+app.post('/api/products', requireAdmin, async (req, res) => {
   const { name, category, price, stock, description, fabric, images, colors, sizes } = req.body;
 
   if (!name || !price || stock === undefined) {
@@ -208,6 +235,8 @@ app.post('/api/products', requireAdmin, (req, res) => {
   refreshAnalytics();
   try {
     persistData();
+    await saveProduct(newProduct);
+    await saveAnalytics(analytics);
   } catch (error) {
     products.shift();
     refreshAnalytics();
@@ -223,7 +252,7 @@ app.post('/api/products', requireAdmin, (req, res) => {
 });
 
 // PUT /api/products/:id (Admin protected)
-app.put('/api/products/:id', requireAdmin, (req, res) => {
+app.put('/api/products/:id', requireAdmin, async (req, res) => {
   const index = products.findIndex(p => p.id === req.params.id);
   if (index === -1) {
     return res.status(404).json({ error: "Product not found" });
@@ -239,7 +268,16 @@ app.put('/api/products/:id', requireAdmin, (req, res) => {
 
   products[index] = updated;
   refreshAnalytics();
-  persistData();
+  try {
+    persistData();
+    await saveProduct(updated);
+    await saveAnalytics(analytics);
+  } catch (error) {
+    products[index] = existing;
+    refreshAnalytics();
+    console.error('Product persistence failed:', error);
+    return res.status(500).json({ error: 'Product could not be saved to the database.' });
+  }
 
   res.json({
     success: true,
@@ -249,7 +287,7 @@ app.put('/api/products/:id', requireAdmin, (req, res) => {
 });
 
 // DELETE /api/products/:id (Admin protected)
-app.delete('/api/products/:id', requireAdmin, (req, res) => {
+app.delete('/api/products/:id', requireAdmin, async (req, res) => {
   const index = products.findIndex(p => p.id === req.params.id);
   if (index === -1) {
     return res.status(404).json({ error: "Product not found" });
@@ -257,7 +295,16 @@ app.delete('/api/products/:id', requireAdmin, (req, res) => {
 
   const removed = products.splice(index, 1)[0];
   refreshAnalytics();
-  persistData();
+  try {
+    persistData();
+    await deleteProduct(removed.id);
+    await saveAnalytics(analytics);
+  } catch (error) {
+    products.splice(index, 0, removed);
+    refreshAnalytics();
+    console.error('Product deletion persistence failed:', error);
+    return res.status(500).json({ error: 'Product could not be deleted from the database.' });
+  }
 
   res.json({
     success: true,
@@ -318,7 +365,7 @@ app.get('/api/admin/analytics', requireAdmin, (req, res) => {
 // -------------------------------------------------------------
 // Orders / Simulated Checkout Endpoint
 // -------------------------------------------------------------
-app.post('/api/orders', (req, res) => {
+app.post('/api/orders', async (req, res) => {
   const { customer, email, items, shippingAddress, paymentMethod, promoCode } = req.body;
 
   if (!Array.isArray(items) || items.length === 0 || items.length > 50) {
@@ -350,6 +397,7 @@ app.post('/api/orders', (req, res) => {
   const shipping = subtotal >= 100 ? 0 : 12;
   const total = Math.max(0, subtotal - discount + shipping);
 
+  const previousAnalytics = JSON.parse(JSON.stringify(analytics));
   normalizedItems.forEach(item => {
     const product = products.find(p => p.id === item.id);
     product.stock -= item.quantity;
@@ -376,7 +424,22 @@ app.post('/api/orders', (req, res) => {
   analytics.summary.totalOrders += 1;
   analytics.summary.averageOrderValue = +(analytics.summary.totalRevenue / analytics.summary.totalOrders).toFixed(2);
   refreshAnalytics();
-  persistData();
+  try {
+    persistData();
+    await Promise.all(normalizedItems.map(item => saveProduct(products.find(product => product.id === item.id))));
+    await saveOrder(orderRecord);
+    await saveAnalytics(analytics);
+  } catch (error) {
+    normalizedItems.forEach(item => {
+      const product = products.find(currentProduct => currentProduct.id === item.id);
+      if (product) product.stock += item.quantity;
+    });
+    orders.shift();
+    analytics = previousAnalytics;
+    persistData();
+    console.error('Order persistence failed:', error);
+    return res.status(500).json({ error: 'Order could not be saved to the database.' });
+  }
 
   res.status(201).json({
     success: true,
