@@ -38,7 +38,9 @@ function persistData() {
     orders
   };
 
-  fs.writeFileSync(dataFilePath, JSON.stringify(payload, null, 2), 'utf8');
+  const tempFilePath = `${dataFilePath}.tmp`;
+  fs.writeFileSync(tempFilePath, JSON.stringify(payload, null, 2), 'utf8');
+  fs.renameSync(tempFilePath, dataFilePath);
 }
 
 // Helper to recalculate summary analytics
@@ -202,7 +204,14 @@ app.post('/api/products', requireAdmin, (req, res) => {
 
   products.unshift(newProduct);
   refreshAnalytics();
-  persistData();
+  try {
+    persistData();
+  } catch (error) {
+    products.shift();
+    refreshAnalytics();
+    console.error('Product persistence failed:', error);
+    return res.status(500).json({ error: 'Product could not be saved to server/data.json.' });
+  }
 
   res.status(201).json({
     success: true,
